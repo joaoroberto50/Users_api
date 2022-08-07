@@ -1,0 +1,14 @@
+server:
+   error:
+      include-stacktrace: on_param
+      
+spring:
+   datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3366/users?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
+      username: root
+      password: root1234
+   jpa:
+      hibernate:
+         ddl-auto: update
+   
