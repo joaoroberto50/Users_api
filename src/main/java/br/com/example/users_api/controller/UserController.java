@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,9 @@ import br.com.example.users_api.Service.UserService;
 import br.com.example.users_api.model.UserData;
 import br.com.example.users_api.requests.UserPostRequestBody;
 import br.com.example.users_api.requests.UserPutRequestBody;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -31,7 +35,10 @@ public class UserController {
 	private UserService userService;
 	
 	@GetMapping
-	public ResponseEntity<Page<UserData>> list(Pageable pageable){
+	@Operation(summary = "Lista todos os usuarios de paginada", 
+		description = "Retorna todos os usuarios de maneira paginada (Pageableo) com tamanho padrão de 20 usuarios por pagina, "
+				+ "a quantidade de usuarios retornados pode ser alterada pelo paramtro 'size'", tags = {"usuario"})
+	public ResponseEntity<Page<UserData>> list(@ParameterObject Pageable pageable){
 		return ResponseEntity.ok(userService.listAll(pageable));
 	}
 	
@@ -51,6 +58,10 @@ public class UserController {
 	}
 	
 	@DeleteMapping(path = "/{id}")
+	@ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Operação bem sucedida."),
+            @ApiResponse(responseCode = "400", description = "O id não corresponde a nenhum usuario na base de dados.")
+    })
 	public ResponseEntity<Void> delete(@PathVariable long id){
 		userService.delete(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);

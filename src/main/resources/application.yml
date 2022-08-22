@@ -12,3 +12,15 @@ spring:
       hibernate:
          ddl-auto: update
    
+management:
+   endpoints:
+      web:
+         exposure:
+            include: info, health, metrics
+               
+info:
+   env:
+      enabled: true
+   app: User_api
+   version: 0.0.1-SNAPSHOT
+   github: https://github.com/joaoroberto50/Users_api/
